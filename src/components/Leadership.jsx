@@ -117,7 +117,7 @@ const Leadership = () => {
           </div>
           <div className="w-full md:w-1/2 overflow-hidden">
             <img 
-              src="/unveiling.png" 
+              src="/unveiling.jpg" 
               alt="Unveiling Major Projects" 
               draggable="false"
               onContextMenu={disableRightClick}
