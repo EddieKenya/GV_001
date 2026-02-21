@@ -63,8 +63,11 @@ const Header = () => {
         />
       )}
 
-      {/* Mobile Side Drawer */}
-      <div className={`fixed top-0 right-0 h-full w-[80%] max-w-sm bg-[#2B4D6C] z-[90] transform ${isOpen ? "translate-x-0" : "translate-x-full"} transition-transform duration-300 ease-in-out md:hidden shadow-2xl overflow-y-auto`}>
+      {/* Mobile Side Drawer - Added 'invisible' logic to prevent horizontal scroll */}
+      <div className={`fixed top-0 right-0 h-full w-[80%] max-w-sm bg-[#2B4D6C] z-[90] 
+        transform transition-transform duration-300 ease-in-out md:hidden shadow-2xl overflow-y-auto
+        ${isOpen ? "translate-x-0 visible" : "translate-x-full invisible"}`}>
+        
         <div className="flex flex-col items-start pt-32 px-10 space-y-10">
           <h4 className="text-blue-300 text-[10px] uppercase tracking-[0.4em] font-bold opacity-50">Navigation</h4>
           

@@ -64,3 +64,7 @@ body {
   background: rgba(43, 77, 108, 0.3);
   color: inherit;
 }
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
