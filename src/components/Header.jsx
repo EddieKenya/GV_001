@@ -15,15 +15,13 @@ const Header = () => {
     { name: "The Joho Leadership", path: "/leadership" },  
   ];
 
-  // Identifies which pages have light backgrounds at the top
   const isHomePage = location.pathname === "/";
   const isLeadershipPage = location.pathname === "/leadership";
 
-  // Text color logic for Desktop: Only dark on Leadership as you requested
   const textColor = isLeadershipPage ? "text-[#2B4D6C]" : "text-white";
-
-  // Mobile Menu Icon logic: Needs to be dark on Home AND Leadership to be visible
   const menuBtnColor = (isHomePage || isLeadershipPage) ? "text-[#2B4D6C]" : "text-white";
+
+  const isActive = (path) => location.pathname === path;
 
   return (
     <header className="absolute top-0 left-0 w-full z-50 py-6 md:py-8">
@@ -33,8 +31,14 @@ const Header = () => {
         <nav className="hidden md:block">
           <ul className={`flex space-x-8 ${textColor} text-base font-semibold tracking-wide transition-colors duration-300`}>
             {navLinks.map((link) => (
-              <li key={link.name} className="hover:underline underline-offset-4 cursor-pointer transition-all">
-                <Link to={link.path}>{link.name}</Link>
+              <li key={link.name} className="relative cursor-pointer group">
+                <Link to={link.path} className="pb-1">
+                  {link.name}
+                  <span className={`absolute left-0 -bottom-1 h-0.5 transition-all duration-300 
+                    ${isActive(link.path) ? 'w-full' : 'w-0 group-hover:w-full'} 
+                    ${isLeadershipPage ? 'bg-red-600' : 'bg-white'}`} 
+                  />
+                </Link>
               </li>
             ))}
           </ul>
@@ -44,28 +48,47 @@ const Header = () => {
         <div className="md:hidden">
           <button 
             onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle Menu"
-            className={`${isOpen ? "text-white" : menuBtnColor} text-4xl focus:outline-none z-50 relative transition-colors duration-300`}
+            className={`${isOpen ? "text-white" : menuBtnColor} text-4xl focus:outline-none z-[100] relative`}
           >
-            {/* The icon now switches to black on Homepage so it's visible against the white mobile hero */}
             {isOpen ? <HiX /> : <HiMenu />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      <div className={`fixed inset-0 bg-[#2B4D6C] z-40 transform ${isOpen ? "translate-x-0" : "translate-x-full"} transition-transform duration-300 ease-in-out md:hidden`}>
-        <div className="flex flex-col items-center justify-center h-full space-y-8">
-          {navLinks.map((link) => (
-            <Link 
-              key={link.name} 
-              to={link.path}
-              onClick={() => setIsOpen(false)}
-              className="text-[#F3F3F3] text-2xl font-bold uppercase tracking-widest"
-            >
-              {link.name}
-            </Link>
-          ))}
+      {/* Mobile Menu Backdrop */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[80] md:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Mobile Side Drawer */}
+      <div className={`fixed top-0 right-0 h-full w-[80%] max-w-sm bg-[#2B4D6C] z-[90] transform ${isOpen ? "translate-x-0" : "translate-x-full"} transition-transform duration-300 ease-in-out md:hidden shadow-2xl overflow-y-auto`}>
+        <div className="flex flex-col items-start pt-32 px-10 space-y-10">
+          <h4 className="text-blue-300 text-[10px] uppercase tracking-[0.4em] font-bold opacity-50">Navigation</h4>
+          
+          <div className="flex flex-col space-y-8 w-full">
+            {navLinks.map((link) => (
+              <Link 
+                key={link.name} 
+                to={link.path}
+                onClick={() => setIsOpen(false)}
+                className={`text-xl font-bold uppercase tracking-widest block transition-all relative z-[110]
+                  ${isActive(link.path) 
+                    ? 'text-red-400 border-l-4 border-red-400 pl-4' 
+                    : 'text-white hover:text-red-300 pl-0'}`}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+
+          <div className="pt-10 border-t border-white/10 w-full">
+            <p className="text-[10px] text-white/40 uppercase tracking-widest leading-relaxed">
+              © 2026 The Republic of Kenya<br/>Executive Office
+            </p>
+          </div>
         </div>
       </div>
     </header>

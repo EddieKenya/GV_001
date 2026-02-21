@@ -5,7 +5,62 @@
   --font-lora: "Lora", serif;
 }
 
-body {
-  @apply bg-[#2B4D6C] text-[#F3F3F3] antialiased; /* Use the exact background color */
+/* Base Styles & Overscroll Prevention */
+html, body {
+  overscroll-behavior-y: none;
+  overscroll-behavior-x: none;
+  height: 100%;
+  width: 100%;
   margin: 0;
+  padding: 0;
+}
+
+body {
+  /* Using your exact color scheme */
+  @apply bg-[#2B4D6C] text-[#F3F3F3] antialiased;
+  overflow-x: hidden;
+  /* Ensures smooth scrolling on mobile once the content reveals */
+  overflow-y: auto;
+}
+
+/* --- ANIMATIONS --- */
+
+/* The Loading Bar Animation */
+@keyframes loading-bar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-loading-bar {
+  animation: loading-bar 1.5s infinite linear;
+}
+
+/* The Content Reveal Fade-In */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Custom Scrollbar for a Premium Look */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2B4D6C;
+  border-radius: 10px;
+}
+
+/* Selection Protection */
+::selection {
+  background: rgba(43, 77, 108, 0.3);
+  color: inherit;
 }
