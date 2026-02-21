@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@theme {
+  --font-playfair: "Playfair Display", serif;
+  --font-lora: "Lora", serif;
+}
+
+body {
+  @apply bg-[#2B4D6C] text-[#F3F3F3] antialiased; /* Use the exact background color */
+  margin: 0;
+}
